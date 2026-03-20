@@ -1,0 +1,12 @@
+run = "npm run dev -- --host 0.0.0.0"
+entrypoint = "src/App.jsx"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "npm run build && npx serve dist -s -l 3000"]
+
+[[ports]]
+localPort = 5173
+externalPort = 80

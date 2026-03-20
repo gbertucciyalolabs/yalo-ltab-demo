@@ -1,0 +1,110 @@
+export const abandonedCart = {
+  id: 'abandoned-cart',
+  title: 'Abandoned Cart Recovery',
+  subtitle: 'AI re-engages retailer who left cart incomplete on the app',
+  icon: '🛒',
+  steps: [
+    {
+      id: 1,
+      type: 'sahulat-browse',
+      sender: 'system',
+      description: 'Retailer browses Sahulat App product grid',
+      content: {
+        view: 'browse',
+      },
+    },
+    {
+      id: 2,
+      type: 'sahulat-add',
+      sender: 'system',
+      description: 'Retailer adds 3 items to cart',
+      content: {
+        cart: [
+          { name: "Lay's Masala", qty: 3, price: 3600 },
+          { name: 'Tapal Danedar', qty: 2, price: 1700 },
+          { name: 'Kurkure Chutney', qty: 4, price: 3600 },
+        ],
+        total: 8900,
+        itemCount: 3,
+      },
+    },
+    {
+      id: 3,
+      type: 'sahulat-abandon',
+      sender: 'system',
+      description: 'Retailer stops — cart left incomplete',
+      content: {
+        action: 'abandon',
+      },
+    },
+    {
+      id: 4,
+      type: 'time-skip',
+      sender: 'system',
+      description: '30 minutes pass — AI detects abandoned cart',
+      content: {
+        label: '⏰ 30 minutes later...',
+      },
+    },
+    {
+      id: 5,
+      type: 'notification',
+      sender: 'system',
+      description: 'Push notification from WhatsApp',
+      content: {
+        title: 'LTAB PepsiCo 🤖',
+        message: "Don't forget your cart! 🛒 You have items waiting.",
+      },
+    },
+    {
+      id: 6,
+      type: 'transition',
+      sender: 'system',
+      description: 'Switch to WhatsApp — Oris recovery message',
+      content: { to: 'whatsapp' },
+      message: {
+        sender: 'bot',
+        content: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 8,900.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Tapal Danedar ×2\n• Kurkure Chutney ×4",
+      },
+    },
+    {
+      id: 7,
+      type: 'message',
+      sender: 'bot',
+      description: 'Oris offers two completion options',
+      content: 'How would you like to complete your order?',
+      hasButtons: true,
+      buttons: ['Complete on WhatsApp', 'Open Sahulat App'],
+    },
+    {
+      id: 8,
+      type: 'message',
+      sender: 'user',
+      description: 'Retailer chooses WhatsApp',
+      content: 'Complete on WhatsApp',
+      isButton: true,
+    },
+    {
+      id: 9,
+      type: 'message',
+      sender: 'bot',
+      description: 'Oris shows cart with free delivery offer',
+      content: "Great! Here's your cart:\n\n💰 Total: PKR 8,900\n🚚 Delivery: FREE (abandoned cart offer!)\n\nConfirm order?",
+      hasButton: true,
+      buttonText: 'Confirm Order ✅',
+    },
+    {
+      id: 10,
+      type: 'message',
+      sender: 'user',
+      description: 'Retailer confirms',
+      content: '✅',
+      then: {
+        type: 'message',
+        sender: 'bot',
+        content: 'Order confirmed! 🎉 #PKR-7845\n\n🚚 Your free delivery saved you PKR 150!\n📅 Delivery: Today 4-6 PM\n\n🎁 Bonus: +50 loyalty points for completing!',
+        isSuccess: true,
+      },
+    },
+  ],
+}

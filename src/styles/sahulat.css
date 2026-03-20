@@ -1,0 +1,559 @@
+/* ===== SAHULAT APP CONTAINER ===== */
+.sahulat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #F5F6FA;
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ===== HEADER ===== */
+.sah-header {
+  background: linear-gradient(135deg, #1a56db 0%, #7C3AED 100%);
+  padding: 14px 16px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.sah-header-title {
+  flex: 1;
+  text-align: center;
+}
+
+.sah-header-title h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.sah-header-title .urdu-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  font-family: 'Noto Nastaliq Urdu', sans-serif;
+  direction: rtl;
+}
+
+.sah-back-btn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sah-cart-icon {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  position: relative;
+}
+
+.sah-cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #EF4444;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== LOYALTY BAR ===== */
+.sah-loyalty-bar {
+  background: linear-gradient(90deg, #0f172a, #1e1b4b);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.sah-loyalty-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #E9EDEF;
+}
+
+.sah-loyalty-points {
+  font-weight: 700;
+  color: #FCD34D;
+}
+
+.sah-loyalty-pending {
+  font-size: 10px;
+  color: rgba(252, 211, 77, 0.7);
+}
+
+/* ===== PRODUCT GRID ===== */
+.sah-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.sah-content::-webkit-scrollbar { width: 3px; }
+.sah-content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+
+.sah-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sah-product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.sah-product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sah-product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.sah-product-image {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  position: relative;
+}
+
+.sah-product-info {
+  padding: 8px 8px 6px;
+}
+
+.sah-product-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.sah-product-sku {
+  font-size: 9px;
+  color: #9CA3AF;
+  margin-bottom: 5px;
+}
+
+.sah-product-price {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a56db;
+  margin-bottom: 6px;
+}
+
+.sah-qty-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F3F4F6;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.sah-qty-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: none;
+  background: white;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.15s;
+}
+.sah-qty-btn:hover { background: #7C3AED; color: white; }
+.sah-qty-btn.add { background: #7C3AED; color: white; }
+
+.sah-qty-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ===== CART VIEW ===== */
+.sah-cart-section {
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.sah-cart-item {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.sah-cart-item-emoji {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.sah-cart-item-info {
+  flex: 1;
+}
+
+.sah-cart-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sah-cart-item-price {
+  font-size: 11px;
+  color: #6B7280;
+  margin-top: 1px;
+}
+
+.sah-cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F3F4F6;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.sah-cart-item-qty span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ===== VOUCHER SECTION ===== */
+.sah-voucher-section {
+  margin: 8px 12px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.sah-voucher-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.sah-voucher-row {
+  display: flex;
+  gap: 8px;
+}
+
+.sah-voucher-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.sah-voucher-input:focus { border-color: #7C3AED; }
+.sah-voucher-input.applied {
+  border-color: #10B981;
+  background: #F0FDF4;
+  color: #065F46;
+}
+
+.sah-voucher-btn {
+  padding: 8px 14px;
+  background: #7C3AED;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.sah-voucher-btn:hover { background: #6D28D9; }
+.sah-voucher-btn.applied { background: #10B981; }
+
+.sah-voucher-success {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: #ECFDF5;
+  border-radius: 6px;
+  border-left: 3px solid #10B981;
+  font-size: 11px;
+  color: #065F46;
+  font-weight: 600;
+}
+
+/* ===== LUCKY WHEEL SECTION ===== */
+.sah-lucky-section {
+  margin: 8px 12px;
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+
+.sah-lucky-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FCD34D;
+  margin-bottom: 8px;
+}
+
+.sah-lucky-desc {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10px;
+}
+
+/* ===== ORDER SUMMARY ===== */
+.sah-order-summary {
+  margin: 0 12px 8px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.sah-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.sah-summary-label { color: #6B7280; }
+.sah-summary-value { font-weight: 600; color: #111827; }
+.sah-summary-discount { color: #10B981; }
+
+.sah-summary-divider {
+  height: 1px;
+  background: #F3F4F6;
+  margin: 6px 0;
+}
+
+.sah-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.sah-summary-total-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.sah-summary-total-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a56db;
+}
+
+/* ===== CART BAR ===== */
+.sah-cart-bar {
+  background: #1a56db;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+}
+
+.sah-cart-bar-info {
+  color: white;
+}
+
+.sah-cart-bar-count {
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+}
+
+.sah-cart-bar-total {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+}
+
+.sah-complete-btn {
+  background: white;
+  color: #1a56db;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.sah-complete-btn:hover {
+  background: #EFF6FF;
+  transform: scale(1.02);
+}
+.sah-complete-btn.pulsing {
+  animation: ctaPulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(255,255,255,0.5);
+}
+
+/* ===== SUCCESS SCREEN ===== */
+.sah-success-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  background: linear-gradient(180deg, #F0FDF4 0%, #ECFDF5 100%);
+}
+
+.sah-success-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.sah-success-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #065F46;
+  margin-bottom: 8px;
+}
+
+.sah-success-order {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.sah-success-detail {
+  font-size: 12px;
+  color: #6B7280;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.sah-success-points {
+  background: linear-gradient(135deg, #1e1b4b, #312e81);
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 13px;
+}
+
+.sah-success-points strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: #FCD34D;
+}
+
+/* ===== TIME SKIP OVERLAY ===== */
+.sah-time-skip {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+  border-radius: 0 0 40px 40px;
+}
+
+.sah-time-skip-card {
+  background: #1F2C34;
+  border-radius: 16px;
+  padding: 24px 32px;
+  text-align: center;
+}
+
+.sah-time-skip-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.sah-time-skip-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #E9EDEF;
+}
+
+/* ===== ABANDON INDICATOR ===== */
+.sah-abandon-indicator {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 2px dashed rgba(239, 68, 68, 0.4);
+  border-radius: 0 0 40px 40px;
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.sah-abandon-label {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}

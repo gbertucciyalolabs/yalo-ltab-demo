@@ -1,0 +1,68 @@
+export const voiceOrdering = {
+  id: 'voice-ordering',
+  title: 'Voice Message Ordering',
+  subtitle: 'Retailer orders via voice note — Oris transcribes & confirms',
+  icon: '🎤',
+  steps: [
+    {
+      id: 1,
+      type: 'message',
+      sender: 'bot',
+      description: 'Oris welcome message',
+      content: 'Welcome to LTAB PepsiCo! 👋\n\nI\'m Oris, your AI ordering assistant.\n\nSend me a message, voice note, or photo to get started!',
+    },
+    {
+      id: 2,
+      type: 'typing',
+      sender: 'user',
+      description: 'Retailer is composing message',
+      content: null,
+    },
+    {
+      id: 3,
+      type: 'voice',
+      sender: 'user',
+      description: 'Retailer sends voice note with order',
+      content: {
+        duration: '0:12',
+        caption: 'مجھے 5 کارٹن لیز کلاسک، 3 کارٹن تاپل دانیدار، اور 2 پیک آکوافینا چاہیے',
+      },
+    },
+    {
+      id: 4,
+      type: 'typing',
+      sender: 'bot',
+      description: 'Oris processing voice message',
+      content: null,
+    },
+    {
+      id: 5,
+      type: 'message',
+      sender: 'bot',
+      description: 'Oris transcribes & summarizes order',
+      content: '🎤 I heard your order:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Tapal Danedar 950g — PKR 2,550\n📦 2× Aquafina 1.5L (6-pack) — PKR 720\n\n💰 **Total: PKR 9,270**\n\nShall I confirm this order?',
+    },
+    {
+      id: 6,
+      type: 'message',
+      sender: 'user',
+      description: 'Retailer confirms',
+      content: '✅',
+    },
+    {
+      id: 7,
+      type: 'typing',
+      sender: 'bot',
+      description: 'Oris processing confirmation',
+      content: null,
+    },
+    {
+      id: 8,
+      type: 'message',
+      sender: 'bot',
+      description: 'Order confirmed with details',
+      content: 'Order confirmed! 🎉\n\n🧾 Order #PKR-7842\n📅 Delivery: Tomorrow, 10 AM - 12 PM\n🚛 Via: LTAB Distributor Hub Lahore\n\nThank you! I\'ll notify you when it ships. 📱',
+      isSuccess: true,
+    },
+  ],
+}
