@@ -1,9 +1,8 @@
 run = "npm run dev -- --host 0.0.0.0"
 entrypoint = "src/App.jsx"
-modules = ["nodejs-20", "web", "nix"]
 
 [nix]
-channel = "stable-25_05"
+channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm run build && npx serve dist -s -l 3000"]
