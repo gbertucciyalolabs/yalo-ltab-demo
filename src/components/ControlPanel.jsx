@@ -55,40 +55,88 @@ export default function ControlPanel({
       </div>
 
       {/* Journey selector */}
-      <div>
-        <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '10px' }}>
-          Journeys
+      <div style={{ overflow: 'auto', flex: '1 1 0', minHeight: 0 }}>
+        {/* Retailer section */}
+        <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(255,255,255,0.35)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>
+          🛒 Retailer
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          {journeys.map((j, i) => (
-            <button
-              key={j.id}
-              onClick={() => { setCurrentJourneyIndex(i); onReset() }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '10px',
-                padding: '10px 12px', borderRadius: '10px', border: 'none',
-                cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s',
-                background: i === currentJourneyIndex ? 'linear-gradient(135deg, rgba(124,58,237,0.25), rgba(91,33,182,0.15))' : 'transparent',
-                borderLeft: i === currentJourneyIndex ? '2px solid #7C3AED' : '2px solid transparent',
-              }}
-            >
-              <span style={{ fontSize: '16px', flexShrink: 0 }}>{j.icon}</span>
-              <div style={{ minWidth: 0 }}>
-                <div style={{
-                  fontSize: '12px', fontWeight: 700,
-                  color: i === currentJourneyIndex ? '#C4B5FD' : 'rgba(255,255,255,0.6)',
-                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                }}>
-                  {i + 1}. {t(j.title)}
-                </div>
-                {i === currentJourneyIndex && (
-                  <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginTop: '1px', lineHeight: 1.3 }}>
-                    {t(j.subtitle)}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '12px' }}>
+          {journeys.filter(j => !j.isSeller).map((j, _) => {
+            const i = journeys.indexOf(j)
+            return (
+              <button
+                key={j.id}
+                onClick={() => { setCurrentJourneyIndex(i); onReset() }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '8px 12px', borderRadius: '10px', border: 'none',
+                  cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s',
+                  background: i === currentJourneyIndex ? 'linear-gradient(135deg, rgba(124,58,237,0.25), rgba(91,33,182,0.15))' : 'transparent',
+                  borderLeft: i === currentJourneyIndex ? '2px solid #7C3AED' : '2px solid transparent',
+                }}
+              >
+                <span style={{ fontSize: '15px', flexShrink: 0 }}>{j.icon}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{
+                    fontSize: '12px', fontWeight: 700,
+                    color: i === currentJourneyIndex ? '#C4B5FD' : 'rgba(255,255,255,0.6)',
+                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                  }}>
+                    {i + 1}. {t(j.title)}
                   </div>
-                )}
-              </div>
-            </button>
-          ))}
+                  {i === currentJourneyIndex && (
+                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginTop: '1px', lineHeight: 1.3 }}>
+                      {t(j.subtitle)}
+                    </div>
+                  )}
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Seller section divider */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
+          <div style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(13,148,136,0.7)', letterSpacing: '1.5px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+            🧑‍💼 Seller (SalesMate)
+          </div>
+          <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.08)' }} />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {journeys.filter(j => j.isSeller).map((j, _) => {
+            const i = journeys.indexOf(j)
+            return (
+              <button
+                key={j.id}
+                onClick={() => { setCurrentJourneyIndex(i); onReset() }}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '8px 12px', borderRadius: '10px', border: 'none',
+                  cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s',
+                  background: i === currentJourneyIndex ? 'linear-gradient(135deg, rgba(13,148,136,0.25), rgba(6,95,70,0.15))' : 'transparent',
+                  borderLeft: i === currentJourneyIndex ? '2px solid #0D9488' : '2px solid transparent',
+                }}
+              >
+                <span style={{ fontSize: '15px', flexShrink: 0 }}>{j.icon}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{
+                    fontSize: '12px', fontWeight: 700,
+                    color: i === currentJourneyIndex ? '#5EEAD4' : 'rgba(255,255,255,0.6)',
+                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                  }}>
+                    {i + 1}. {t(j.title)}
+                  </div>
+                  {i === currentJourneyIndex && (
+                    <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginTop: '1px', lineHeight: 1.3 }}>
+                      {t(j.subtitle)}
+                    </div>
+                  )}
+                </div>
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -217,7 +265,7 @@ export default function ControlPanel({
         </div>
 
         <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)', textAlign: 'center', lineHeight: 1.6 }}>
-          → Next &nbsp;|&nbsp; ← Prev &nbsp;|&nbsp; R Reset &nbsp;|&nbsp; 1-5 Jump &nbsp;|&nbsp; F Fullscreen
+          → Next &nbsp;|&nbsp; ← Prev &nbsp;|&nbsp; R Reset &nbsp;|&nbsp; 1-9 Jump &nbsp;|&nbsp; F Fullscreen
         </div>
       </div>
 

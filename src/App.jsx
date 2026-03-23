@@ -280,7 +280,7 @@ export default function App() {
       if (e.key === 'ArrowLeft') { e.preventDefault(); handlePrev() }
       if (e.key === 'r' || e.key === 'R') { e.preventDefault(); handleReset() }
       if (e.key === 'f' || e.key === 'F') { e.preventDefault(); document.documentElement.requestFullscreen?.() }
-      if (e.key >= '1' && e.key <= '5') {
+      if (e.key >= '1' && e.key <= '9') {
         const idx = parseInt(e.key) - 1
         if (idx < journeys.length) setJourneyIndex(idx)
       }
@@ -320,6 +320,7 @@ export default function App() {
         showTyping={showTyping}
         notification={notification}
         lang={lang}
+        isSeller={journey.isSeller === true}
       />
     )
   }

@@ -366,3 +366,47 @@
   color: #C4B5FD;
   line-height: 1.4;
 }
+
+/* ===== AI VARIANT RICH CARD ===== */
+.wa-rich-card.wa-rich-card-ai {
+  border: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.wa-rich-card-header.ai-header {
+  background: linear-gradient(135deg, #0d2d3a, #0a1e2d);
+  border-bottom: 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.wa-rich-card-tip.ai-tip {
+  background: rgba(13, 148, 136, 0.12);
+  border-left: 3px solid #0D9488;
+  color: #5EEAD4;
+}
+
+/* ===== PROGRESS BARS IN METRICS ===== */
+.wa-metric-progress-track {
+  margin-top: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  min-width: 60px;
+}
+
+.wa-metric-progress-bar {
+  height: 100%;
+  border-radius: 2px;
+  background: #25D366;
+  transition: width 0.5s ease;
+}
+
+.wa-metric-progress-bar.negative {
+  background: #F59E0B;
+}
+
+/* ===== SM (SALESMATE) AVATAR ===== */
+.wa-header-avatar.sm-avatar {
+  background: linear-gradient(135deg, #0D9488, #065F46);
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.4);
+  font-size: 13px;
+}

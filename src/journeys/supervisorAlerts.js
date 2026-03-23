@@ -1,0 +1,90 @@
+export const supervisorAlerts = {
+  id: 'supervisor-alerts',
+  title: { en: 'Supervisor Alerts', ur: 'سپروائزر الرٹس' },
+  subtitle: { en: 'Real-time supervisor directives and AI-powered competitor intelligence', ur: 'ریئل ٹائم سپروائزر ہدایات اور AI مسابقتی انٹیلیجنس' },
+  icon: '⚠️',
+  isSeller: true,
+  steps: [
+    {
+      id: 1,
+      type: 'typing',
+      sender: 'bot',
+      description: 'SalesMate relaying supervisor alert',
+    },
+    {
+      id: 2,
+      type: 'message',
+      sender: 'bot',
+      description: 'Supervisor alert — competitor promotion detected',
+      content: {
+        en: "🚨 **Alert from Supervisor Tariq**\n\nCompetitor activity detected in your area!\n\nCoca-Cola is running a **buy-2-get-1** promo at retail outlets in Model Town.\n\nPlease photograph any competitor POS materials you see and share for AI analysis.",
+        ur: '🚨 **سپروائزر طارق کی طرف سے الرٹ**\n\nآپ کے علاقے میں مسابقتی سرگرمی کا پتہ چلا!\n\nکوکا کولا ماڈل ٹاؤن کے ریٹیل آؤٹ لیٹس میں **خریدو 2 پاؤ 1** پرومو چلا رہا ہے۔\n\nکوئی بھی مسابقتی POS مواد نظر آئے تو تصویر لے کر AI تجزیے کے لیے شیئر کریں۔',
+      },
+      hasButton: true,
+      buttonText: { en: 'Got it, will check 📸', ur: 'سمجھ گیا، چیک کروں گا 📸' },
+    },
+    {
+      id: 3,
+      type: 'message',
+      sender: 'user',
+      description: 'Rep acknowledges alert',
+      content: { en: 'Got it, will check 📸', ur: 'سمجھ گیا، چیک کروں گا 📸' },
+      isButton: true,
+    },
+    {
+      id: 4,
+      type: 'photo',
+      sender: 'user',
+      description: 'Rep captures competitor promotion photo',
+      content: {
+        mode: 'camera',
+        label: { en: '📸 Competitor Promo', ur: '📸 مسابقتی پرومو' },
+        caption: { en: 'Coca-Cola shelf display', ur: 'کوکا کولا شیلف ڈسپلے' },
+      },
+    },
+    {
+      id: 5,
+      type: 'typing',
+      sender: 'bot',
+      description: 'AI analyzing competitor promotion',
+    },
+    {
+      id: 6,
+      type: 'rich-card',
+      sender: 'bot',
+      description: 'AI competitor analysis card',
+      content: {
+        header: { en: '🤖 AI Competitor Analysis', ur: '🤖 AI مسابقتی تجزیہ' },
+        variant: 'ai',
+        metrics: [
+          { label: { en: 'Promo Type', ur: 'پرومو قسم' }, value: { en: 'Buy 2 Get 1', ur: 'خریدو 2 پاؤ 1' }, change: null, positive: null },
+          { label: { en: 'SKU at Risk', ur: 'خطرے میں SKU' }, value: { en: 'Coke 1.5L', ur: 'کوک 1.5L' }, change: { en: 'vs Pepsi 1.5L', ur: 'بنام Pepsi 1.5L' }, positive: false },
+          { label: { en: 'Price Diff', ur: 'قیمت کا فرق' }, value: { en: '₹8 cheaper', ur: '₹8 سستا' }, change: { en: 'Effective discount', ur: 'مؤثر رعایت' }, positive: false },
+          { label: { en: 'Outlets Hit', ur: 'متاثر آؤٹ لیٹس' }, value: '7', change: { en: 'in your territory', ur: 'آپ کے علاقے میں' }, positive: null },
+        ],
+        tip: {
+          en: '💡 Counter: Offer Pepsi 1.5L bundle (3+1) to 7 affected outlets. Est. impact: +PKR 8,400.',
+          ur: '💡 جوابی اقدام: 7 متاثر آؤٹ لیٹس کو Pepsi 1.5L بنڈل (3+1) پیش کریں۔ متوقع اثر: +PKR 8,400',
+        },
+      },
+    },
+    {
+      id: 7,
+      type: 'typing',
+      sender: 'bot',
+      description: 'SalesMate generating counter-promotion plan',
+    },
+    {
+      id: 8,
+      type: 'message',
+      sender: 'bot',
+      description: 'SalesMate suggests 3 priority outlets for counter-promo',
+      content: {
+        en: "Here are 3 priority outlets to counter the Coke promo **today**:\n\n1️⃣ Raza Stores — offer Pepsi 3+1 bundle\n2️⃣ City Corner Shop — place standee + floor display\n3️⃣ Al-Noor General — replenish cold zone\n\nI've added these to your route. 🗺️",
+        ur: 'آج کوک پرومو کا مقابلہ کرنے کے لیے 3 ترجیحی آؤٹ لیٹس:\n\n1️⃣ رضا اسٹورز — Pepsi 3+1 بنڈل پیش کریں\n2️⃣ سٹی کارنر شاپ — اسٹینڈی + فلور ڈسپلے لگائیں\n3️⃣ النور جنرل — کولڈ زون دوبارہ بھریں\n\nمیں نے انہیں آپ کے روٹ میں شامل کر دیا ہے۔ 🗺️',
+      },
+      hasButton: true,
+      buttonText: { en: 'Route updated ✅', ur: 'روٹ اپ ڈیٹ ✅' },
+    },
+  ],
+}

@@ -11,7 +11,7 @@ import NotificationBanner from './NotificationBanner.jsx'
 
 const TIMESTAMPS = ['2:31 PM', '2:32 PM', '2:33 PM', '2:34 PM', '2:35 PM', '2:36 PM', '2:37 PM', '2:38 PM', '2:39 PM', '2:40 PM', '2:41 PM', '2:42 PM']
 
-export default function WhatsAppChat({ visibleSteps = [], showTyping = false, notification = null, lang = 'en' }) {
+export default function WhatsAppChat({ visibleSteps = [], showTyping = false, notification = null, lang = 'en', isSeller = false }) {
   const bottomRef = useRef(null)
   const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
 
@@ -41,7 +41,11 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
         <PhotoBubble
           key={step.id}
           items={step.content?.items || []}
+          mode={step.content?.mode}
+          label={step.content?.label}
+          caption={step.content?.caption}
           timestamp={ts}
+          lang={lang}
         />
       )
     }
@@ -133,9 +137,11 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
     <div className="whatsapp-container">
       {/* Header */}
       <div className="wa-header">
-        <div className="wa-header-avatar">Y</div>
+        <div className={`wa-header-avatar${isSeller ? ' sm-avatar' : ''}`}>
+          {isSeller ? 'SM' : 'Y'}
+        </div>
         <div className="wa-header-info">
-          <div className="wa-header-name">LTAB PepsiCo 🤖</div>
+          <div className="wa-header-name">{isSeller ? 'SalesMate AI 🤖' : 'LTAB PepsiCo 🤖'}</div>
           <div className="wa-header-status">● online</div>
         </div>
         <div className="wa-header-actions">
