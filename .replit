@@ -35,7 +35,7 @@ author = "agent"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run dev"
-waitForPort = 5000
+waitForPort = 5173
 
 [workflows.workflow.metadata]
 outputType = "webview"

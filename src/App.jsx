@@ -1,96 +1,92 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import ControlPanel from './components/ControlPanel.jsx'
 import PhoneMockup from './components/PhoneMockup.jsx'
 import WhatsAppChat from './components/WhatsAppChat.jsx'
 import SahulatApp from './components/SahulatApp.jsx'
+import LockScreen from './components/LockScreen.jsx'
 import { journeys } from './journeys/index.js'
+
+// useRef imported via destructuring below
+import { useRef } from 'react'
+
+const SAHULAT_RESET = {
+  view: 'browse', cartItems: [], voucherApplied: false, voucherCode: '',
+  discount: 0, loyaltyPoints: 2450, pendingPoints: 0,
+  ctaPulsing: false, showLuckyWheel: false, orderDetails: null,
+  showAbandoned: false, showTimeSkip: false,
+}
 
 export default function App() {
   const [journeyIndex, setJourneyIndex] = useState(0)
-  const [stepIndex, setStepIndex] = useState(0)  // 0 = before any step shown
+  const [stepIndex, setStepIndex] = useState(0)
   const [showTyping, setShowTyping] = useState(false)
-  const [phoneView, setPhoneView] = useState('whatsapp') // 'whatsapp' | 'sahulat'
+  const [phoneView, setPhoneView] = useState('whatsapp') // 'whatsapp' | 'sahulat' | 'lockscreen'
   const [transitionState, setTransitionState] = useState('none')
   const [notification, setNotification] = useState(null)
+  const [showLockNotification, setShowLockNotification] = useState(false)
+  const [cartBranch, setCartBranch] = useState(null) // 'whatsapp' | 'app' | null
   const [lang, setLang] = useState('en')
-  const [sahulatState, setSahulatState] = useState({
-    view: 'browse',
-    cartItems: [],
-    voucherApplied: false,
-    voucherCode: '',
-    discount: 0,
-    loyaltyPoints: 2450,
-    pendingPoints: 0,
-    ctaPulsing: false,
-    showLuckyWheel: false,
-    orderDetails: null,
-    showAbandoned: false,
-    showTimeSkip: false,
-  })
+  const [sahulatState, setSahulatState] = useState(SAHULAT_RESET)
 
   const typingTimerRef = useRef(null)
   const notifTimerRef = useRef(null)
   const journey = journeys[journeyIndex]
   const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
-  const totalSteps = journey.steps.length
 
-  // Get steps visible so far
-  const visibleSteps = journey.steps.slice(0, stepIndex).filter(s =>
-    s.type !== 'typing' && s.type !== 'time-skip'
-  )
+  // Compute effective steps — appends branch steps once a branch is chosen
+  const effectiveSteps = (journey.hasBranch && journey.branches && cartBranch)
+    ? [...journey.steps, ...(journey.branches[cartBranch] || [])]
+    : journey.steps
 
-  // Reset when journey changes
+  const totalSteps = effectiveSteps.length
+
+  // Are we waiting at the branch point?
+  const atBranchPoint = !!(journey.hasBranch && !cartBranch && stepIndex >= journey.steps.length)
+
+  // Steps visible in the WhatsApp chat
+  const NON_CHAT = new Set(['typing', 'time-skip', 'branch', 'lockscreen', 'lock-notification', 'unlock', 'sahulat-browse', 'sahulat-add', 'sahulat-abandon'])
+  const visibleSteps = effectiveSteps.slice(0, stepIndex).filter(s => !NON_CHAT.has(s.type))
+
+  // Step description for the sidebar (uses effective steps)
+  const currentStepData = effectiveSteps[stepIndex - 1]
+
+  // ─── Reset ───────────────────────────────────────────────────────────────────
   const handleReset = useCallback(() => {
     clearTimeout(typingTimerRef.current)
     clearTimeout(notifTimerRef.current)
     setStepIndex(0)
     setShowTyping(false)
-    setPhoneView('whatsapp')
+    setPhoneView(journey.steps[0]?.type === 'lockscreen' ? 'lockscreen' : 'whatsapp')
     setTransitionState('none')
     setNotification(null)
-    setSahulatState({
-      view: 'browse',
-      cartItems: [],
-      voucherApplied: false,
-      voucherCode: '',
-      discount: 0,
-      loyaltyPoints: 2450,
-      pendingPoints: 0,
-      ctaPulsing: false,
-      showLuckyWheel: false,
-      orderDetails: null,
-      showAbandoned: false,
-      showTimeSkip: false,
-    })
-  }, [])
+    setShowLockNotification(false)
+    setCartBranch(null)
+    setSahulatState(SAHULAT_RESET)
+  }, [journey])
 
-  useEffect(() => {
-    handleReset()
-  }, [journeyIndex])
+  useEffect(() => { handleReset() }, [journeyIndex])
 
-  // Process a step's side effects
+  // ─── Process step side-effects ────────────────────────────────────────────────
   const processStepEffects = useCallback((step) => {
     if (!step) return
-
     setShowTyping(false)
 
-    // --- Typing steps ---
-    if (step.type === 'typing') {
-      setShowTyping(true)
-      return
-    }
+    if (step.type === 'typing') { setShowTyping(true); return }
 
-    // --- Transition to Sahulat ---
+    if (step.type === 'lockscreen') { setPhoneView('lockscreen'); setShowLockNotification(false); return }
+    if (step.type === 'lock-notification') { setPhoneView('lockscreen'); setShowLockNotification(true); return }
+    if (step.type === 'unlock') { setPhoneView('whatsapp'); setShowLockNotification(false); return }
+    if (step.type === 'branch') { /* handled by atBranchPoint */ return }
+
     if (step.type === 'transition' && step.content?.to === 'sahulat') {
       setTransitionState('exiting')
       setTimeout(() => {
         setPhoneView('sahulat')
-        const cart = step.content.cart || []
         setSahulatState(prev => ({
           ...prev,
           view: 'cart',
-          cartItems: cart,
+          cartItems: step.content.cart || [],
           voucherCode: step.content.voucher || '',
           loyaltyPoints: step.content.loyaltyPoints || 2450,
           pendingPoints: step.content.pendingPoints || 0,
@@ -101,17 +97,12 @@ export default function App() {
       return
     }
 
-    // --- Transition to WhatsApp ---
     if (step.type === 'transition' && step.content?.to === 'whatsapp') {
-      // Show notification first, then switch
-      if (step.content?.to === 'whatsapp') {
-        setTransitionState('none')
-      }
+      setTransitionState('none')
       setPhoneView('whatsapp')
       return
     }
 
-    // --- Notification ---
     if (step.type === 'notification') {
       setPhoneView('whatsapp')
       setNotification({ title: step.content.title, message: step.content.message })
@@ -120,27 +111,23 @@ export default function App() {
       return
     }
 
-    // --- Sahulat browse ---
     if (step.type === 'sahulat-browse') {
       setPhoneView('sahulat')
       setSahulatState(prev => ({ ...prev, view: 'browse', cartItems: [], showAbandoned: false }))
       return
     }
 
-    // --- Sahulat add items ---
     if (step.type === 'sahulat-add') {
       setPhoneView('sahulat')
       setSahulatState(prev => ({ ...prev, view: 'browse', cartItems: step.content.cart || [] }))
       return
     }
 
-    // --- Sahulat abandon ---
     if (step.type === 'sahulat-abandon') {
       setSahulatState(prev => ({ ...prev, showAbandoned: true }))
       return
     }
 
-    // --- Time skip ---
     if (step.type === 'time-skip') {
       setSahulatState(prev => ({ ...prev, showTimeSkip: true }))
       clearTimeout(typingTimerRef.current)
@@ -150,29 +137,21 @@ export default function App() {
       return
     }
 
-    // --- UI Actions (Sahulat) ---
     if (step.type === 'ui-action') {
       const { action } = step.content
-
       if (action === 'apply-voucher') {
         setSahulatState(prev => ({
-          ...prev,
-          voucherApplied: true,
+          ...prev, voucherApplied: true,
           discount: step.content.discount || 870,
           showLuckyWheel: step.content.showLuckyWheel || false,
         }))
       }
-
       if (action === 'highlight-cta') {
         setSahulatState(prev => ({ ...prev, ctaPulsing: true }))
       }
-
       if (action === 'order-success') {
         setSahulatState(prev => ({
-          ...prev,
-          view: 'success',
-          ctaPulsing: false,
-          showLuckyWheel: false,
+          ...prev, view: 'success', ctaPulsing: false, showLuckyWheel: false,
           orderDetails: {
             orderNumber: step.content.orderNumber,
             delivery: step.content.delivery,
@@ -185,62 +164,70 @@ export default function App() {
     }
   }, [])
 
+  // ─── Next ─────────────────────────────────────────────────────────────────────
   const handleNext = useCallback(() => {
-    if (stepIndex >= totalSteps) return
+    // Block if at branch point with no choice made
+    if (journey.hasBranch && !cartBranch && stepIndex >= journey.steps.length) return
+
+    const steps = (journey.hasBranch && journey.branches && cartBranch)
+      ? [...journey.steps, ...(journey.branches[cartBranch] || [])]
+      : journey.steps
+    const total = steps.length
+
+    if (stepIndex >= total) return
     clearTimeout(typingTimerRef.current)
-    const step = journey.steps[stepIndex]
+
+    const step = steps[stepIndex]
     processStepEffects(step)
     setStepIndex(prev => prev + 1)
 
     if (step?.type === 'typing') {
-      const nextStep = journey.steps[stepIndex + 1]
-      if (nextStep && stepIndex + 1 < totalSteps) {
+      const nextStep = steps[stepIndex + 1]
+      if (nextStep && stepIndex + 1 < total) {
         typingTimerRef.current = setTimeout(() => {
           processStepEffects(nextStep)
           setStepIndex(prev => prev + 1)
         }, 950)
       }
     }
-  }, [stepIndex, totalSteps, journey, processStepEffects])
+  }, [stepIndex, journey, cartBranch, processStepEffects])
 
+  // ─── Branch choice ────────────────────────────────────────────────────────────
+  const handleBranchChoice = useCallback((branch) => {
+    setCartBranch(branch)
+  }, [])
+
+  // ─── Prev ─────────────────────────────────────────────────────────────────────
   const handlePrev = useCallback(() => {
     if (stepIndex <= 0) return
-    // Reset and replay up to stepIndex - 1
     const newIndex = stepIndex - 1
 
-    // Full reset then re-apply
     clearTimeout(typingTimerRef.current)
     clearTimeout(notifTimerRef.current)
     setShowTyping(false)
-    setPhoneView('whatsapp')
     setTransitionState('none')
     setNotification(null)
-    setSahulatState({
-      view: 'browse',
-      cartItems: [],
-      voucherApplied: false,
-      voucherCode: '',
-      discount: 0,
-      loyaltyPoints: 2450,
-      pendingPoints: 0,
-      ctaPulsing: false,
-      showLuckyWheel: false,
-      orderDetails: null,
-      showAbandoned: false,
-      showTimeSkip: false,
-    })
 
-    // Re-apply all steps synchronously up to newIndex
-    let pView = 'whatsapp'
-    let pSahulat = {
-      view: 'browse', cartItems: [], voucherApplied: false, voucherCode: '',
-      discount: 0, loyaltyPoints: 2450, pendingPoints: 0,
-      ctaPulsing: false, showLuckyWheel: false, orderDetails: null,
-      showAbandoned: false, showTimeSkip: false,
+    // If going back into or before the branch point, clear branch choice
+    let newCartBranch = cartBranch
+    if (journey.hasBranch && cartBranch && newIndex <= journey.steps.length) {
+      newCartBranch = null
     }
 
+    const stepsToReplay = (journey.hasBranch && newCartBranch && journey.branches)
+      ? [...journey.steps, ...(journey.branches[newCartBranch] || [])]
+      : journey.steps
+
+    // Compute initial view from journey start
+    let pView = stepsToReplay[0]?.type === 'lockscreen' ? 'lockscreen' : 'whatsapp'
+    let pShowLockNotif = false
+    let pSahulat = { ...SAHULAT_RESET }
+
     for (let i = 0; i < newIndex; i++) {
-      const s = journey.steps[i]
+      const s = stepsToReplay[i]
+      if (s.type === 'lockscreen') { pView = 'lockscreen'; pShowLockNotif = false }
+      if (s.type === 'lock-notification') { pView = 'lockscreen'; pShowLockNotif = true }
+      if (s.type === 'unlock') { pView = 'whatsapp'; pShowLockNotif = false }
       if (s.type === 'transition' && s.content?.to === 'sahulat') {
         pView = 'sahulat'
         pSahulat = { ...pSahulat, view: 'cart', cartItems: s.content.cart || [], voucherCode: s.content.voucher || '', loyaltyPoints: s.content.loyaltyPoints || 2450, pendingPoints: s.content.pendingPoints || 0 }
@@ -258,34 +245,38 @@ export default function App() {
     }
 
     setPhoneView(pView)
+    setShowLockNotification(pShowLockNotif)
     setSahulatState(pSahulat)
+    setCartBranch(newCartBranch)
     setStepIndex(newIndex)
 
-    // Show typing if last visible step is a typing step
-    const lastStep = journey.steps[newIndex - 1]
+    const lastStep = stepsToReplay[newIndex - 1]
     setShowTyping(lastStep?.type === 'typing')
-  }, [stepIndex, journey])
+  }, [stepIndex, journey, cartBranch])
 
-  // Keyboard shortcuts
+  // ─── Keyboard shortcuts ───────────────────────────────────────────────────────
   useEffect(() => {
     const handler = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
-
       if (e.key === 'ArrowRight') { e.preventDefault(); handleNext() }
       if (e.key === 'ArrowLeft') { e.preventDefault(); handlePrev() }
       if (e.key === 'r' || e.key === 'R') { e.preventDefault(); handleReset() }
       if (e.key === 'f' || e.key === 'F') { e.preventDefault(); document.documentElement.requestFullscreen?.() }
       if (e.key >= '1' && e.key <= '5') {
         const idx = parseInt(e.key) - 1
-        if (idx < journeys.length) { setJourneyIndex(idx) }
+        if (idx < journeys.length) setJourneyIndex(idx)
       }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [handleNext, handlePrev, handleReset])
 
-  // Determine what to show in the phone
+  // ─── Phone content ─────────────────────────────────────────────────────────────
   const renderPhoneContent = () => {
+    if (phoneView === 'lockscreen') {
+      return <LockScreen showNotification={showLockNotification} lang={lang} />
+    }
+
     if (phoneView === 'sahulat') {
       return (
         <SahulatApp
@@ -315,14 +306,11 @@ export default function App() {
     )
   }
 
-  // Compute notification for WhatsApp view from abandoned cart step 5
-  const activeNotification = phoneView === 'whatsapp' ? notification : null
-
   return (
     <div className="app-layout">
       <ControlPanel
         currentJourneyIndex={journeyIndex}
-        setCurrentJourneyIndex={(i) => { setJourneyIndex(i) }}
+        setCurrentJourneyIndex={(i) => setJourneyIndex(i)}
         currentStep={stepIndex}
         totalSteps={totalSteps}
         onNext={handleNext}
@@ -330,10 +318,13 @@ export default function App() {
         onReset={handleReset}
         lang={lang}
         setLang={setLang}
+        atBranchPoint={atBranchPoint}
+        onBranchChoice={handleBranchChoice}
+        currentStepDescription={currentStepData?.description}
+        journey={journey}
       />
 
       <div className="app-stage">
-        {/* Journey label */}
         <div className="journey-label">
           {journey.icon} Journey {journeyIndex + 1}: {t(journey.title)}
         </div>
