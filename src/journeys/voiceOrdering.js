@@ -24,8 +24,8 @@ export const voiceOrdering = {
       sender: 'user',
       description: 'Retailer sends voice note with order',
       content: {
-        duration: '0:12',
-        caption: 'مجھے 5 کارٹن لیز کلاسک، 3 کارٹن تاپل دانیدار، اور 2 پیک آکوافینا چاہیے',
+        duration: '0:11',
+        caption: 'مجھے 5 کارٹن لیز کلاسک، 3 کارٹن پیپسی 1.5 لیٹر، اور 2 پیک آکوافینا چاہیے',
       },
     },
     {
@@ -40,7 +40,7 @@ export const voiceOrdering = {
       type: 'message',
       sender: 'bot',
       description: 'Oris transcribes & summarizes order',
-      content: '🎤 I heard your order:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Tapal Danedar 950g — PKR 2,550\n📦 2× Aquafina 1.5L (6-pack) — PKR 720\n\n💰 **Total: PKR 9,270**\n\nShall I confirm this order?',
+      content: '🎤 I heard your order:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Pepsi Cola 1.5L — PKR 4,320\n📦 2× Aquafina 1.5L (6-pack) — PKR 720\n\n💰 Total: PKR 11,040\n\nShall I confirm this order?',
     },
     {
       id: 6,

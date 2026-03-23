@@ -21,10 +21,10 @@ export const abandonedCart = {
       content: {
         cart: [
           { name: "Lay's Masala", qty: 3, price: 3600 },
-          { name: 'Tapal Danedar', qty: 2, price: 1700 },
+          { name: 'Pepsi Cola 1.5L', qty: 2, price: 2880 },
           { name: 'Kurkure Chutney', qty: 4, price: 3600 },
         ],
-        total: 8900,
+        total: 10080,
         itemCount: 3,
       },
     },
@@ -64,7 +64,7 @@ export const abandonedCart = {
       content: { to: 'whatsapp' },
       message: {
         sender: 'bot',
-        content: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 8,900.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Tapal Danedar ×2\n• Kurkure Chutney ×4",
+        content: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 10,080.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Pepsi Cola 1.5L ×2\n• Kurkure Chutney ×4",
       },
     },
     {
@@ -89,7 +89,7 @@ export const abandonedCart = {
       type: 'message',
       sender: 'bot',
       description: 'Oris shows cart with free delivery offer',
-      content: "Great! Here's your cart:\n\n💰 Total: PKR 8,900\n🚚 Delivery: FREE (abandoned cart offer!)\n\nConfirm order?",
+      content: "Great! Here's your cart:\n\n💰 Total: PKR 10,080\n🚚 Delivery: FREE (abandoned cart offer!)\n\nConfirm order?",
       hasButton: true,
       buttonText: 'Confirm Order ✅',
     },

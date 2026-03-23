@@ -330,13 +330,15 @@ export default function App() {
         <div className="product-logos">
           <span className="product-logo-item">LAY'S</span>
           <span className="product-logo-item">·</span>
-          <span className="product-logo-item">TAPAL</span>
+          <span className="product-logo-item">PEPSI</span>
+          <span className="product-logo-item">·</span>
+          <span className="product-logo-item">7UP</span>
           <span className="product-logo-item">·</span>
           <span className="product-logo-item">AQUAFINA</span>
           <span className="product-logo-item">·</span>
           <span className="product-logo-item">KURKURE</span>
           <span className="product-logo-item">·</span>
-          <span className="product-logo-item">BISCONNI</span>
+          <span className="product-logo-item">MOUNTAIN DEW</span>
         </div>
       </div>
     </div>

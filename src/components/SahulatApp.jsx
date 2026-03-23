@@ -104,7 +104,7 @@ export default function SahulatApp({
             {cartItems.map((item, i) => (
               <div key={i} className="sah-cart-item message-enter">
                 <div className="sah-cart-item-emoji">
-                  {item.name.includes("Lay's") ? '🟡' : item.name.includes('Kurkure') ? '🧡' : item.name.includes('Tapal') ? '☕' : item.name.includes('Aquafina') ? '💧' : item.name.includes('Bisconni') ? '🍫' : '📦'}
+                  {item.name.includes("Lay's") ? '🟡' : item.name.includes('Kurkure') ? '🧡' : item.name.includes('Pepsi') ? '🥤' : item.name.includes('7UP') ? '💚' : item.name.includes('Mountain Dew') ? '🌿' : item.name.includes('Aquafina') ? '💧' : '📦'}
                 </div>
                 <div className="sah-cart-item-info">
                   <div className="sah-cart-item-name">{item.name}</div>
