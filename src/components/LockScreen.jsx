@@ -7,7 +7,7 @@ const LOCK_NOTIF_TEXT = {
 
 const SWIPE_HINT = { en: '⬆ Swipe to open', ur: '⬆ کھولنے کے لیے سوائپ کریں' }
 
-export default function LockScreen({ showNotification = false, lang = 'en' }) {
+export default function LockScreen({ showNotification = false, showTimeSkip = false, lang = 'en' }) {
   return (
     <div style={{
       height: '100%',
@@ -105,6 +105,34 @@ export default function LockScreen({ showNotification = false, lang = 'en' }) {
               fontFamily: lang === 'ur' ? "'Noto Nastaliq Urdu', serif" : 'inherit',
             }}>
               {LOCK_NOTIF_TEXT[lang]}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Time-skip overlay */}
+      {showTimeSkip && (
+        <div className="fade-in" style={{
+          position: 'absolute', inset: 0, zIndex: 10,
+          background: 'rgba(0,0,0,0.65)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <div style={{
+            background: 'rgba(255,255,255,0.1)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderRadius: '20px',
+            padding: '20px 32px',
+            textAlign: 'center',
+            border: '1px solid rgba(255,255,255,0.18)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          }}>
+            <div className="clock-spin" style={{ fontSize: '36px', marginBottom: '10px', display: 'inline-block' }}>⏰</div>
+            <div style={{ fontSize: '18px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>
+              {lang === 'ur' ? '30 منٹ بعد...' : '30 minutes later...'}
+            </div>
+            <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.55)' }}>
+              {lang === 'ur' ? 'AI نے ادھوری ٹوکری کا پتہ لگا لیا' : 'AI detects abandoned cart'}
             </div>
           </div>
         </div>

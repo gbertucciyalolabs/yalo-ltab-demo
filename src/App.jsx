@@ -25,6 +25,7 @@ export default function App() {
   const [transitionState, setTransitionState] = useState('none')
   const [notification, setNotification] = useState(null)
   const [showLockNotification, setShowLockNotification] = useState(false)
+  const [showLockTimeSkip, setShowLockTimeSkip] = useState(false)
   const [cartBranch, setCartBranch] = useState(null) // 'whatsapp' | 'app' | null
   const [lang, setLang] = useState('en')
   const [sahulatState, setSahulatState] = useState(SAHULAT_RESET)
@@ -57,10 +58,15 @@ export default function App() {
     clearTimeout(notifTimerRef.current)
     setStepIndex(0)
     setShowTyping(false)
-    setPhoneView(journey.steps[0]?.type === 'lockscreen' ? 'lockscreen' : 'whatsapp')
+    const firstType = journey.steps[0]?.type
+    const initialView = firstType === 'lockscreen' ? 'lockscreen'
+      : (firstType === 'sahulat-browse' || firstType === 'sahulat-add') ? 'sahulat'
+      : 'whatsapp'
+    setPhoneView(initialView)
     setTransitionState('none')
     setNotification(null)
     setShowLockNotification(false)
+    setShowLockTimeSkip(false)
     setCartBranch(null)
     setSahulatState(SAHULAT_RESET)
   }, [journey])
@@ -74,7 +80,12 @@ export default function App() {
 
     if (step.type === 'typing') { setShowTyping(true); return }
 
-    if (step.type === 'lockscreen') { setPhoneView('lockscreen'); setShowLockNotification(false); return }
+    if (step.type === 'lockscreen') {
+      setPhoneView('lockscreen')
+      setShowLockNotification(false)
+      setSahulatState(prev => ({ ...prev, showAbandoned: false }))
+      return
+    }
     if (step.type === 'lock-notification') { setPhoneView('lockscreen'); setShowLockNotification(true); return }
     if (step.type === 'unlock') { setPhoneView('whatsapp'); setShowLockNotification(false); return }
     if (step.type === 'branch') { /* handled by atBranchPoint */ return }
@@ -129,10 +140,13 @@ export default function App() {
     }
 
     if (step.type === 'time-skip') {
+      // Show time-skip on whichever screen is visible
       setSahulatState(prev => ({ ...prev, showTimeSkip: true }))
+      setShowLockTimeSkip(true)
       clearTimeout(typingTimerRef.current)
       typingTimerRef.current = setTimeout(() => {
         setSahulatState(prev => ({ ...prev, showTimeSkip: false, showAbandoned: false }))
+        setShowLockTimeSkip(false)
       }, 1800)
       return
     }
@@ -207,6 +221,7 @@ export default function App() {
     setShowTyping(false)
     setTransitionState('none')
     setNotification(null)
+    setShowLockTimeSkip(false)
 
     // If going back into or before the branch point, clear branch choice
     let newCartBranch = cartBranch
@@ -218,8 +233,11 @@ export default function App() {
       ? [...journey.steps, ...(journey.branches[newCartBranch] || [])]
       : journey.steps
 
-    // Compute initial view from journey start
-    let pView = stepsToReplay[0]?.type === 'lockscreen' ? 'lockscreen' : 'whatsapp'
+    // Compute initial view from the journey's first step type
+    const firstType = stepsToReplay[0]?.type
+    let pView = firstType === 'lockscreen' ? 'lockscreen'
+      : (firstType === 'sahulat-browse' || firstType === 'sahulat-add') ? 'sahulat'
+      : 'whatsapp'
     let pShowLockNotif = false
     let pSahulat = { ...SAHULAT_RESET }
 
@@ -274,7 +292,7 @@ export default function App() {
   // ─── Phone content ─────────────────────────────────────────────────────────────
   const renderPhoneContent = () => {
     if (phoneView === 'lockscreen') {
-      return <LockScreen showNotification={showLockNotification} lang={lang} />
+      return <LockScreen showNotification={showLockNotification} showTimeSkip={showLockTimeSkip} lang={lang} />
     }
 
     if (phoneView === 'sahulat') {

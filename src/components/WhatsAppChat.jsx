@@ -31,6 +31,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           duration={step.content?.duration}
           caption={step.content?.caption}
           timestamp={ts}
+          lang={lang}
         />
       )
     }

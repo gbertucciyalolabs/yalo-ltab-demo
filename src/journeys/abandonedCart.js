@@ -9,47 +9,86 @@ export const abandonedCart = {
     app: { en: '📱 Open Sahulat App', ur: '📱 ساہولت ایپ کھولیں' },
   },
 
-  // Common steps — lock screen through branch point
+  // Common steps
   steps: [
+    // ── Phase 1: Customer browses & abandons the Sahulat App ──────────────────
     {
       id: 1,
-      type: 'lockscreen',
+      type: 'sahulat-browse',
       sender: 'system',
-      description: 'Retailer\'s phone is idle — cart was abandoned 30 min ago',
+      description: 'Retailer opens Sahulat App and browses products',
+      content: { view: 'browse' },
     },
     {
       id: 2,
+      type: 'sahulat-add',
+      sender: 'system',
+      description: 'Retailer adds 3 items to cart',
+      content: {
+        cart: [
+          { name: "Lay's Masala", qty: 3, price: 3600 },
+          { name: 'Pepsi Cola 1.5L', qty: 2, price: 2880 },
+          { name: 'Kurkure Chutney', qty: 4, price: 3600 },
+        ],
+        total: 10080,
+        itemCount: 3,
+      },
+    },
+    {
+      id: 3,
+      type: 'sahulat-abandon',
+      sender: 'system',
+      description: 'Retailer stops — cart left incomplete',
+      content: { action: 'abandon' },
+    },
+    // ── Phase 2: Phone locks, time passes ────────────────────────────────────
+    {
+      id: 4,
+      type: 'lockscreen',
+      sender: 'system',
+      description: 'Phone locks — retailer sets phone down',
+    },
+    {
+      id: 5,
+      type: 'time-skip',
+      sender: 'system',
+      description: '30 minutes pass — AI detects abandoned cart',
+      content: { label: '⏰ 30 minutes later...' },
+    },
+    // ── Phase 3: Notification → WhatsApp recovery ────────────────────────────
+    {
+      id: 6,
       type: 'lock-notification',
       sender: 'system',
       description: 'Push notification arrives on lock screen',
     },
     {
-      id: 3,
+      id: 7,
       type: 'unlock',
       sender: 'system',
       description: 'Retailer taps notification — WhatsApp opens',
     },
     {
-      id: 4,
+      id: 8,
       type: 'typing',
       sender: 'bot',
       description: 'Oris composing recovery message',
     },
     {
-      id: 5,
+      id: 9,
       type: 'message',
       sender: 'bot',
-      description: 'Oris sends full abandoned cart recovery message',
+      description: 'Oris sends full cart recovery message',
       content: {
         en: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 10,080.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Pepsi Cola 1.5L ×2\n• Kurkure Chutney ×4",
         ur: 'ہیلو! 👋 آپ نے ساہولت ٹوکری میں PKR 10,080 کے 3 آئٹمز چھوڑ دیے۔\n\nابھی مکمل کریں اور مفت ڈیلیوری پائیں! 🚚\n\n🛒 آپ کے آئٹمز:\n• لیز مسالہ ×3\n• پیپسی کولا 1.5L ×2\n• کرکرے چٹنی ×4',
       },
     },
     {
-      id: 6,
+      id: 10,
       type: 'message',
       sender: 'bot',
-      description: 'Oris asks how the retailer wants to complete their order',
+      description: 'Oris offers two completion options',
       content: {
         en: 'How would you like to complete your order?',
         ur: 'آپ اپنا آرڈر کیسے مکمل کرنا چاہیں گے؟',
@@ -61,7 +100,7 @@ export const abandonedCart = {
       },
     },
     {
-      id: 7,
+      id: 11,
       type: 'branch',
       sender: 'system',
       description: 'Choose completion path: WhatsApp or Sahulat App',
@@ -69,15 +108,13 @@ export const abandonedCart = {
   ],
 
   branches: {
-    // ─────────────────────────────────────────────
-    // Path A — Complete on WhatsApp
-    // ─────────────────────────────────────────────
+    // ─── Path A — Complete on WhatsApp ──────────────────────────────────────
     whatsapp: [
       {
         id: 'wa-1',
         type: 'message',
         sender: 'user',
-        description: 'Retailer chooses to complete on WhatsApp',
+        description: 'Retailer chooses WhatsApp',
         content: { en: 'Complete on WhatsApp', ur: 'واٹس ایپ پر مکمل کریں' },
         isButton: true,
       },
@@ -103,7 +140,7 @@ export const abandonedCart = {
         id: 'wa-4',
         type: 'message',
         sender: 'user',
-        description: 'Retailer confirms order',
+        description: 'Retailer confirms',
         content: '✅',
         isButton: true,
       },
@@ -111,7 +148,7 @@ export const abandonedCart = {
         id: 'wa-5',
         type: 'message',
         sender: 'bot',
-        description: 'Order confirmed — with free delivery & bonus points',
+        description: 'Order confirmed with free delivery & bonus points',
         content: {
           en: 'Order confirmed! 🎉 #PKR-7845\n\n🚚 Free delivery saved you PKR 150!\n📅 Delivery: Today 4-6 PM\n\n🎁 Bonus: +50 loyalty points for completing!',
           ur: 'آرڈر تصدیق ہو گیا! 🎉 #PKR-7845\n\n🚚 مفت ڈیلیوری نے PKR 150 بچائے!\n📅 ڈیلیوری: آج شام 4-6\n\n🎁 بونس: مکمل کرنے پر +50 لائلٹی پوائنٹس!',
@@ -120,15 +157,13 @@ export const abandonedCart = {
       },
     ],
 
-    // ─────────────────────────────────────────────
-    // Path B — Open Sahulat App
-    // ─────────────────────────────────────────────
+    // ─── Path B — Open Sahulat App ──────────────────────────────────────────
     app: [
       {
         id: 'app-1',
         type: 'message',
         sender: 'user',
-        description: 'Retailer chooses to open Sahulat App',
+        description: 'Retailer chooses Sahulat App',
         content: { en: 'Open Sahulat App', ur: 'ساہولت ایپ کھولیں' },
         isButton: true,
       },
@@ -162,11 +197,7 @@ export const abandonedCart = {
         type: 'ui-action',
         sender: 'system',
         description: 'Free delivery voucher applied automatically',
-        content: {
-          action: 'apply-voucher',
-          discount: 150,
-          showLuckyWheel: false,
-        },
+        content: { action: 'apply-voucher', discount: 150, showLuckyWheel: false },
       },
       {
         id: 'app-4',

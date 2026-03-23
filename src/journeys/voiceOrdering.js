@@ -28,7 +28,10 @@ export const voiceOrdering = {
       description: 'Retailer sends voice note with order',
       content: {
         duration: '0:11',
-        caption: 'مجھے 5 کارٹن لیز کلاسک، 3 کارٹن پیپسی 1.5 لیٹر، اور 2 پیک آکوافینا چاہیے',
+        caption: {
+          en: "5× Lay's Classic, 3× Pepsi 1.5L, 2× Aquafina",
+          ur: 'مجھے 5 کارٹن لیز کلاسک، 3 کارٹن پیپسی 1.5 لیٹر، اور 2 پیک آکوافینا چاہیے',
+        },
       },
     },
     {
