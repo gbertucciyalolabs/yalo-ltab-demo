@@ -4,13 +4,19 @@ import '../styles/animations.css'
 
 const STARS = ['⭐', '⭐⭐', '⭐⭐⭐', '⭐⭐⭐⭐', '⭐⭐⭐⭐⭐']
 
-export default function NpsBubble({ content, timestamp = '2:42 PM' }) {
+const FEEDBACK_TEXT = {
+  en: 'Thank you for your feedback!',
+  ur: 'آپ کے تاثرات کا شکریہ!',
+}
+
+export default function NpsBubble({ content, timestamp = '2:42 PM', lang = 'en' }) {
   const [selected, setSelected] = useState(null)
+  const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
 
   return (
     <div className="wa-bubble-wrapper incoming message-enter">
       <div className="wa-bubble incoming">
-        <span>{content}</span>
+        <span className={lang === 'ur' ? 'urdu-message' : ''}>{t(content)}</span>
 
         <div className="wa-nps-row">
           {STARS.map((s, i) => (
@@ -36,7 +42,7 @@ export default function NpsBubble({ content, timestamp = '2:42 PM' }) {
             textAlign: 'center',
             fontWeight: 600,
           }}>
-            Thank you for your feedback! {STARS[selected]}
+            {FEEDBACK_TEXT[lang] || FEEDBACK_TEXT.en} {STARS[selected]}
           </div>
         )}
 

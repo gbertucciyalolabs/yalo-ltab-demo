@@ -11,8 +11,9 @@ import NotificationBanner from './NotificationBanner.jsx'
 
 const TIMESTAMPS = ['2:31 PM', '2:32 PM', '2:33 PM', '2:34 PM', '2:35 PM', '2:36 PM', '2:37 PM', '2:38 PM', '2:39 PM', '2:40 PM', '2:41 PM', '2:42 PM']
 
-export default function WhatsAppChat({ visibleSteps = [], showTyping = false, notification = null }) {
+export default function WhatsAppChat({ visibleSteps = [], showTyping = false, notification = null, lang = 'en' }) {
   const bottomRef = useRef(null)
+  const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -50,6 +51,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           key={step.id}
           content={step.content}
           timestamp={ts}
+          lang={lang}
         />
       )
     }
@@ -60,6 +62,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           key={step.id}
           content={step.content}
           timestamp={ts}
+          lang={lang}
         />
       )
     }
@@ -78,6 +81,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           isUrdu={step.isUrdu}
           isButton={step.isButton}
           isSuccess={step.isSuccess}
+          lang={lang}
         />
       )
     }
@@ -94,6 +98,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           buttonText={step.message.buttonText}
           hasButtons={step.message.hasButtons}
           buttons={step.message.buttons}
+          lang={lang}
         />
       )
     }
@@ -107,6 +112,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           content={step.content}
           timestamp={ts}
           isButton={step.isButton}
+          lang={lang}
         />,
         <MessageBubble
           key={`${step.id}-then`}
@@ -114,6 +120,7 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
           content={step.then.content}
           timestamp={TIMESTAMPS[(index + 1) % TIMESTAMPS.length]}
           isSuccess={step.then.isSuccess}
+          lang={lang}
         />,
       ]
     }
@@ -141,8 +148,8 @@ export default function WhatsAppChat({ visibleSteps = [], showTyping = false, no
       <div style={{ position: 'relative' }}>
         {notification && (
           <NotificationBanner
-            title={notification.title}
-            message={notification.message}
+            title={t(notification.title)}
+            message={t(notification.message)}
             visible={!!notification}
           />
         )}

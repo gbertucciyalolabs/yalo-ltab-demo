@@ -192,6 +192,14 @@
   unicode-bidi: embed;
 }
 
+.urdu-message {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
 /* ===== ACTION BUTTONS IN BUBBLE ===== */
 .wa-action-btn {
   display: block;
@@ -211,14 +219,13 @@
 
 .wa-buttons-row {
   display: flex;
+  flex-direction: column;
   gap: 6px;
   margin-top: 8px;
-  flex-wrap: wrap;
 }
 
 .wa-btn {
-  flex: 1;
-  min-width: 80px;
+  width: 100%;
   padding: 6px 10px;
   background: rgba(83, 189, 235, 0.12);
   border: 1px solid rgba(83, 189, 235, 0.35);
@@ -229,7 +236,7 @@
   text-align: center;
   cursor: pointer;
   transition: background 0.2s;
-  white-space: nowrap;
+  white-space: normal;
 }
 .wa-btn:hover { background: rgba(83, 189, 235, 0.22); }
 .wa-btn.selected {

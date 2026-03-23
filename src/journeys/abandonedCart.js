@@ -1,7 +1,7 @@
 export const abandonedCart = {
   id: 'abandoned-cart',
-  title: 'Abandoned Cart Recovery',
-  subtitle: 'AI re-engages retailer who left cart incomplete on the app',
+  title: { en: 'Abandoned Cart Recovery', ur: 'ادھوری ٹوکری کی بحالی' },
+  subtitle: { en: 'AI re-engages retailer who left cart incomplete on the app', ur: 'AI اس ریٹیلر سے دوبارہ رابطہ کرتا ہے جس نے ایپ پر ٹوکری ادھوری چھوڑی' },
   icon: '🛒',
   steps: [
     {
@@ -53,7 +53,10 @@ export const abandonedCart = {
       description: 'Push notification from WhatsApp',
       content: {
         title: 'LTAB PepsiCo 🤖',
-        message: "Don't forget your cart! 🛒 You have items waiting.",
+        message: {
+          en: "Don't forget your cart! 🛒 You have items waiting.",
+          ur: 'اپنی ٹوکری نہ بھولیں! 🛒 آپ کے آئٹمز انتظار کر رہے ہیں۔',
+        },
       },
     },
     {
@@ -64,7 +67,10 @@ export const abandonedCart = {
       content: { to: 'whatsapp' },
       message: {
         sender: 'bot',
-        content: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 10,080.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Pepsi Cola 1.5L ×2\n• Kurkure Chutney ×4",
+        content: {
+          en: "Hey! 👋 You left 3 items in your Sahulat cart worth PKR 10,080.\n\nComplete now and get FREE delivery! 🚚\n\n🛒 Your items:\n• Lay's Masala ×3\n• Pepsi Cola 1.5L ×2\n• Kurkure Chutney ×4",
+          ur: 'ہیلو! 👋 آپ نے ساہولت ٹوکری میں PKR 10,080 کے 3 آئٹمز چھوڑ دیے۔\n\nابھی مکمل کریں اور مفت ڈیلیوری پائیں! 🚚\n\n🛒 آپ کے آئٹمز:\n• لیز مسالہ ×3\n• پیپسی کولا 1.5L ×2\n• کرکرے چٹنی ×4',
+        },
       },
     },
     {
@@ -72,16 +78,22 @@ export const abandonedCart = {
       type: 'message',
       sender: 'bot',
       description: 'Oris offers two completion options',
-      content: 'How would you like to complete your order?',
+      content: {
+        en: 'How would you like to complete your order?',
+        ur: 'آپ اپنا آرڈر کیسے مکمل کرنا چاہیں گے؟',
+      },
       hasButtons: true,
-      buttons: ['Complete on WhatsApp', 'Open Sahulat App'],
+      buttons: {
+        en: ['Complete on WhatsApp', 'Open Sahulat App'],
+        ur: ['واٹس ایپ پر مکمل کریں', 'ساہولت ایپ کھولیں'],
+      },
     },
     {
       id: 8,
       type: 'message',
       sender: 'user',
       description: 'Retailer chooses WhatsApp',
-      content: 'Complete on WhatsApp',
+      content: { en: 'Complete on WhatsApp', ur: 'واٹس ایپ پر مکمل کریں' },
       isButton: true,
     },
     {
@@ -89,9 +101,12 @@ export const abandonedCart = {
       type: 'message',
       sender: 'bot',
       description: 'Oris shows cart with free delivery offer',
-      content: "Great! Here's your cart:\n\n💰 Total: PKR 10,080\n🚚 Delivery: FREE (abandoned cart offer!)\n\nConfirm order?",
+      content: {
+        en: "Great! Here's your cart:\n\n💰 Total: PKR 10,080\n🚚 Delivery: FREE (abandoned cart offer!)\n\nConfirm order?",
+        ur: 'بہت اچھا! یہ ہے آپ کی ٹوکری:\n\n💰 کل: PKR 10,080\n🚚 ڈیلیوری: مفت (ادھوری ٹوکری آفر!)\n\nآرڈر تصدیق کریں؟',
+      },
       hasButton: true,
-      buttonText: 'Confirm Order ✅',
+      buttonText: { en: 'Confirm Order ✅', ur: 'آرڈر تصدیق کریں ✅' },
     },
     {
       id: 10,
@@ -102,7 +117,10 @@ export const abandonedCart = {
       then: {
         type: 'message',
         sender: 'bot',
-        content: 'Order confirmed! 🎉 #PKR-7845\n\n🚚 Your free delivery saved you PKR 150!\n📅 Delivery: Today 4-6 PM\n\n🎁 Bonus: +50 loyalty points for completing!',
+        content: {
+          en: 'Order confirmed! 🎉 #PKR-7845\n\n🚚 Your free delivery saved you PKR 150!\n📅 Delivery: Today 4-6 PM\n\n🎁 Bonus: +50 loyalty points for completing!',
+          ur: 'آرڈر تصدیق ہو گیا! 🎉 #PKR-7845\n\n🚚 آپ کی مفت ڈیلیوری نے PKR 150 بچائے!\n📅 ڈیلیوری: آج شام 4-6\n\n🎁 بونس: مکمل کرنے پر +50 لائلٹی پوائنٹس!',
+        },
         isSuccess: true,
       },
     },

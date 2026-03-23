@@ -1,7 +1,7 @@
 export const appHandoff = {
   id: 'app-handoff',
-  title: 'WhatsApp → Sahulat App Handoff',
-  subtitle: 'Seamless transition from chat to app for loyalty & vouchers',
+  title: { en: 'WhatsApp → Sahulat App Handoff', ur: 'واٹس ایپ → ساہولت ایپ منتقلی' },
+  subtitle: { en: 'Seamless transition from chat to app for loyalty & vouchers', ur: 'لائلٹی اور وچر کے لیے چیٹ سے ایپ میں ہموار منتقلی' },
   icon: '🔄',
   steps: [
     {
@@ -9,30 +9,39 @@ export const appHandoff = {
       type: 'message',
       sender: 'bot',
       description: 'Oris starts order flow',
-      content: "Let's build your order! 🛒\n\nWhat do you need today?",
+      content: {
+        en: "Let's build your order! 🛒\n\nWhat do you need today?",
+        ur: 'آئیں آپ کا آرڈر بناتے ہیں! 🛒\n\nآج آپ کو کیا چاہیے؟',
+      },
     },
     {
       id: 2,
       type: 'message',
       sender: 'user',
       description: 'Retailer lists items',
-      content: "Lay's Classic x5, Kurkure x3",
+      content: { en: "Lay's Classic x5, Kurkure x3", ur: 'لیز کلاسک x5، کرکرے x3' },
     },
     {
       id: 3,
       type: 'message',
       sender: 'bot',
       description: 'Oris shows cart summary',
-      content: '🛒 Your cart:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Kurkure Chutney — PKR 2,700\n\n💰 Total: PKR 8,700',
+      content: {
+        en: '🛒 Your cart:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Kurkure Chutney — PKR 2,700\n\n💰 Total: PKR 8,700',
+        ur: '🛒 آپ کی ٹوکری:\n\n📦 5× لیز کلاسک — PKR 6,000\n📦 3× کرکرے چٹنی — PKR 2,700\n\n💰 کل: PKR 8,700',
+      },
     },
     {
       id: 4,
       type: 'message',
       sender: 'bot',
       description: 'Oris offers app handoff with benefits',
-      content: 'Want to earn loyalty points and spin the Lucky Draw? 🎰\n\nComplete your order in the Sahulat App:\n\n✅ Apply voucher codes\n⭐ Earn 87 loyalty points\n🎡 Spin for prizes!',
+      content: {
+        en: 'Want to earn loyalty points and spin the Lucky Draw? 🎰\n\nComplete your order in the Sahulat App:\n\n✅ Apply voucher codes\n⭐ Earn 87 loyalty points\n🎡 Spin for prizes!',
+        ur: 'لائلٹی پوائنٹس کمانا اور لکی ڈرا میں حصہ لینا چاہتے ہیں؟ 🎰\n\nاپنا آرڈر ساہولت ایپ میں مکمل کریں:\n\n✅ وچر کوڈ لگائیں\n⭐ 87 لائلٹی پوائنٹس کمائیں\n🎡 انعامات کے لیے اسپن کریں!',
+      },
       hasButton: true,
-      buttonText: 'Open Sahulat App →',
+      buttonText: { en: 'Open Sahulat App →', ur: 'ساہولت ایپ کھولیں →' },
       buttonAction: 'open-app',
     },
     {

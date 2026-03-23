@@ -1,7 +1,7 @@
 export const voiceOrdering = {
   id: 'voice-ordering',
-  title: 'Voice Message Ordering',
-  subtitle: 'Retailer orders via voice note — Oris transcribes & confirms',
+  title: { en: 'Voice Message Ordering', ur: 'وائس میسج آرڈرنگ' },
+  subtitle: { en: 'Retailer orders via voice note — Oris transcribes & confirms', ur: 'ریٹیلر وائس نوٹ سے آرڈر دیتا ہے — اوریس ٹرانسکرائب اور تصدیق کرتا ہے' },
   icon: '🎤',
   steps: [
     {
@@ -9,7 +9,10 @@ export const voiceOrdering = {
       type: 'message',
       sender: 'bot',
       description: 'Oris welcome message',
-      content: 'Welcome to LTAB PepsiCo! 👋\n\nI\'m Oris, your AI ordering assistant.\n\nSend me a message, voice note, or photo to get started!',
+      content: {
+        en: 'Welcome to LTAB PepsiCo! 👋\n\nI\'m Oris, your AI ordering assistant.\n\nSend me a message, voice note, or photo to get started!',
+        ur: 'LTAB PepsiCo میں خوش آمدید! 👋\n\nمیں اوریس ہوں، آپ کا AI آرڈرنگ اسسٹنٹ۔\n\nشروع کرنے کے لیے مجھے پیغام، وائس نوٹ، یا تصویر بھیجیں!',
+      },
     },
     {
       id: 2,
@@ -40,7 +43,10 @@ export const voiceOrdering = {
       type: 'message',
       sender: 'bot',
       description: 'Oris transcribes & summarizes order',
-      content: '🎤 I heard your order:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Pepsi Cola 1.5L — PKR 4,320\n📦 2× Aquafina 1.5L (6-pack) — PKR 720\n\n💰 Total: PKR 11,040\n\nShall I confirm this order?',
+      content: {
+        en: '🎤 I heard your order:\n\n📦 5× Lay\'s Classic — PKR 6,000\n📦 3× Pepsi Cola 1.5L — PKR 4,320\n📦 2× Aquafina 1.5L (6-pack) — PKR 720\n\n💰 Total: PKR 11,040\n\nShall I confirm this order?',
+        ur: '🎤 میں نے آپ کا آرڈر سنا:\n\n📦 5× لیز کلاسک — PKR 6,000\n📦 3× پیپسی کولا 1.5L — PKR 4,320\n📦 2× ایکوافینا 1.5L (6-پیک) — PKR 720\n\n💰 کل: PKR 11,040\n\nکیا میں یہ آرڈر تصدیق کروں؟',
+      },
     },
     {
       id: 6,
@@ -61,7 +67,10 @@ export const voiceOrdering = {
       type: 'message',
       sender: 'bot',
       description: 'Order confirmed with details',
-      content: 'Order confirmed! 🎉\n\n🧾 Order #PKR-7842\n📅 Delivery: Tomorrow, 10 AM - 12 PM\n🚛 Via: LTAB Distributor Hub Lahore\n\nThank you! I\'ll notify you when it ships. 📱',
+      content: {
+        en: 'Order confirmed! 🎉\n\n🧾 Order #PKR-7842\n📅 Delivery: Tomorrow, 10 AM - 12 PM\n🚛 Via: LTAB Distributor Hub Lahore\n\nThank you! I\'ll notify you when it ships. 📱',
+        ur: 'آرڈر تصدیق ہو گیا! 🎉\n\n🧾 آرڈر #PKR-7842\n📅 ڈیلیوری: کل، صبح 10 - دوپہر 12\n🚛 بذریعہ: LTAB ڈسٹریبیوٹر ہب لاہور\n\nشکریہ! جب شپ ہو جائے گا تو میں آپ کو مطلع کروں گا۔ 📱',
+      },
       isSuccess: true,
     },
   ],

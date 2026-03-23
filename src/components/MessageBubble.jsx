@@ -30,9 +30,19 @@ export default function MessageBubble({
   isButton = false,
   isSuccess = false,
   cardType,
+  lang = 'en',
 }) {
   const isBot = sender === 'bot'
-  const isUser = sender === 'user'
+  const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
+
+  const resolvedContent = t(content)
+  const resolvedButtonText = t(buttonText)
+  // buttons can be { en: [...], ur: [...] } or a plain array
+  const resolvedButtons = Array.isArray(buttons)
+    ? buttons
+    : (typeof buttons === 'object' && buttons !== null ? (buttons[lang] ?? buttons.en ?? []) : [])
+
+  const isUrduContent = lang === 'ur' || isUrdu
 
   return (
     <div className={`wa-bubble-wrapper message-enter ${isBot ? 'incoming' : 'outgoing'}`}>
@@ -41,20 +51,20 @@ export default function MessageBubble({
         style={isSuccess ? { borderLeft: '3px solid #25D366', paddingLeft: '10px' } : {}}
       >
         {isButton ? (
-          <span style={{ color: '#53BDEB', fontWeight: 600 }}>{content}</span>
-        ) : isUrdu ? (
-          <span className="urdu-text">{content}</span>
+          <span style={{ color: '#53BDEB', fontWeight: 600 }}>{resolvedContent}</span>
+        ) : isUrduContent ? (
+          <span className="urdu-message">{resolvedContent}</span>
         ) : (
-          <span>{renderContent(content)}</span>
+          <span>{renderContent(resolvedContent || '')}</span>
         )}
 
         {hasButton && (
-          <div className="wa-action-btn">{buttonText}</div>
+          <div className="wa-action-btn">{resolvedButtonText}</div>
         )}
 
-        {hasButtons && buttons.length > 0 && (
+        {hasButtons && resolvedButtons.length > 0 && (
           <div className="wa-buttons-row">
-            {buttons.map((btn, i) => (
+            {resolvedButtons.map((btn, i) => (
               <div key={i} className="wa-btn">{btn}</div>
             ))}
           </div>
@@ -62,7 +72,7 @@ export default function MessageBubble({
 
         <div className="wa-bubble-meta">
           <span className="wa-bubble-time">{timestamp}</span>
-          {isUser && <span className="wa-bubble-checks">✓✓</span>}
+          {!isBot && <span className="wa-bubble-checks">✓✓</span>}
         </div>
       </div>
     </div>

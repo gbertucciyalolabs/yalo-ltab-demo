@@ -8,8 +8,11 @@ export default function ControlPanel({
   onNext,
   onPrev,
   onReset,
+  lang,
+  setLang,
 }) {
   const journey = journeys[currentJourneyIndex]
+  const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
 
   return (
     <div
@@ -41,6 +44,45 @@ export default function ControlPanel({
           <div style={{ fontSize: '20px', fontWeight: 900, color: 'white', letterSpacing: '-0.5px' }}>yalo</div>
           <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', letterSpacing: '1.5px', textTransform: 'uppercase' }}>Commerce AI</div>
         </div>
+      </div>
+
+      {/* Language toggle */}
+      <div style={{ display: 'flex', gap: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', padding: '4px' }}>
+        <button
+          onClick={() => setLang('en')}
+          style={{
+            flex: 1,
+            padding: '6px',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 700,
+            background: lang === 'en' ? 'linear-gradient(135deg, #7C3AED, #6D28D9)' : 'transparent',
+            color: lang === 'en' ? 'white' : 'rgba(255,255,255,0.4)',
+            transition: 'all 0.2s',
+          }}
+        >
+          EN
+        </button>
+        <button
+          onClick={() => setLang('ur')}
+          style={{
+            flex: 1,
+            padding: '6px',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: 700,
+            background: lang === 'ur' ? 'linear-gradient(135deg, #7C3AED, #6D28D9)' : 'transparent',
+            color: lang === 'ur' ? 'white' : 'rgba(255,255,255,0.4)',
+            transition: 'all 0.2s',
+            fontFamily: "'Noto Nastaliq Urdu', serif",
+          }}
+        >
+          اردو
+        </button>
       </div>
 
       {/* Journey selector */}
@@ -79,11 +121,11 @@ export default function ControlPanel({
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                 }}>
-                  {i + 1}. {j.title}
+                  {i + 1}. {t(j.title)}
                 </div>
                 {i === currentJourneyIndex && (
                   <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.35)', marginTop: '1px', lineHeight: 1.3 }}>
-                    {j.subtitle}
+                    {t(j.subtitle)}
                   </div>
                 )}
               </div>

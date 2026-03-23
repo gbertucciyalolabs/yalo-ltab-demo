@@ -58,23 +58,3 @@ html, body, #root {
   backdrop-filter: blur(4px);
 }
 
-/* Product logo watermark */
-.product-logos {
-  position: absolute;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  z-index: 0;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.product-logo-item {
-  font-size: 10px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.10);
-  letter-spacing: 0.5px;
-}

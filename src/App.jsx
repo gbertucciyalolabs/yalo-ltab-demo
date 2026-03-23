@@ -13,6 +13,7 @@ export default function App() {
   const [phoneView, setPhoneView] = useState('whatsapp') // 'whatsapp' | 'sahulat'
   const [transitionState, setTransitionState] = useState('none')
   const [notification, setNotification] = useState(null)
+  const [lang, setLang] = useState('en')
   const [sahulatState, setSahulatState] = useState({
     view: 'browse',
     cartItems: [],
@@ -31,6 +32,7 @@ export default function App() {
   const typingTimerRef = useRef(null)
   const notifTimerRef = useRef(null)
   const journey = journeys[journeyIndex]
+  const t = (f) => typeof f === 'object' && f?.en !== undefined ? (f[lang] ?? f.en) : f
   const totalSteps = journey.steps.length
 
   // Get steps visible so far
@@ -185,9 +187,20 @@ export default function App() {
 
   const handleNext = useCallback(() => {
     if (stepIndex >= totalSteps) return
-    const nextStep = journey.steps[stepIndex]
-    processStepEffects(nextStep)
+    clearTimeout(typingTimerRef.current)
+    const step = journey.steps[stepIndex]
+    processStepEffects(step)
     setStepIndex(prev => prev + 1)
+
+    if (step?.type === 'typing') {
+      const nextStep = journey.steps[stepIndex + 1]
+      if (nextStep && stepIndex + 1 < totalSteps) {
+        typingTimerRef.current = setTimeout(() => {
+          processStepEffects(nextStep)
+          setStepIndex(prev => prev + 1)
+        }, 950)
+      }
+    }
   }, [stepIndex, totalSteps, journey, processStepEffects])
 
   const handlePrev = useCallback(() => {
@@ -297,6 +310,7 @@ export default function App() {
         visibleSteps={visibleSteps}
         showTyping={showTyping}
         notification={notification}
+        lang={lang}
       />
     )
   }
@@ -314,32 +328,19 @@ export default function App() {
         onNext={handleNext}
         onPrev={handlePrev}
         onReset={handleReset}
+        lang={lang}
+        setLang={setLang}
       />
 
       <div className="app-stage">
         {/* Journey label */}
         <div className="journey-label">
-          {journey.icon} Journey {journeyIndex + 1}: {journey.title}
+          {journey.icon} Journey {journeyIndex + 1}: {t(journey.title)}
         </div>
 
         <PhoneMockup transitionState={transitionState}>
           {renderPhoneContent()}
         </PhoneMockup>
-
-        {/* Product watermarks */}
-        <div className="product-logos">
-          <span className="product-logo-item">LAY'S</span>
-          <span className="product-logo-item">·</span>
-          <span className="product-logo-item">PEPSI</span>
-          <span className="product-logo-item">·</span>
-          <span className="product-logo-item">7UP</span>
-          <span className="product-logo-item">·</span>
-          <span className="product-logo-item">AQUAFINA</span>
-          <span className="product-logo-item">·</span>
-          <span className="product-logo-item">KURKURE</span>
-          <span className="product-logo-item">·</span>
-          <span className="product-logo-item">MOUNTAIN DEW</span>
-        </div>
       </div>
     </div>
   )
